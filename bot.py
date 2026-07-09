@@ -3,9 +3,13 @@ from discord.ext import commands
 from discord import app_commands
 import aiohttp
 import os
+import asyncio
 
-TOKEN = os.environ.get("MTUxNTg5NzI3MzQ1MDYzMTE4OA.GJjFIw.D7Erj8nPcjbx4I7RV5HhuvIBIhb0vpcP4PE2xc")
-ROBLOX_COOKIE = os.environ.get("_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|_CAEaBBAEGAEiHAoEZHVpZBIUMTU1MjYyMDg3MDA5MjI2ODU3MTUoAw.QhQXkucYEq8JeChDDF6hTv32fQXX0Tc_RYvvV8oMRtjAamtSFMlKMDWaznUUg6JSEsV3yc8wZIMNz3q1f5disClFsSA4fT6JUB-xHf3QaSbTIpmf0ZMJcRv-jbaFP0NX6q6jmHf7cwuu8qrZlOLCkOZ9Cv7o6_3geZhJCdI9oitS6zrB1eePolDHn6GSxv6gfXqBpbEjF-tz7abR0g1w0CzfgivegMOS7vs_5cBh-Ts1lIBfONSiKKg4tzqnbSuxWeaLhjkmJEH1v2XZZdbavm45CcDqXPCH0_5m6m4myQRq4pK00xuNIdZZN98WdTTZaI4uoQOYwK926yJy1sdqQ9KRM_DrCd79a6FzKHL71BBuOQyJqNtm1f6rZCkw-QEzMXjlczbKiqeyZraTyBCJq9nSqAOyzh-6wQO6-hoU8-ZjWZhJu-qrE7Ot-vNfhTxM6vGoISwQ154gZbxh4ahhoocdr26H3HUxXg-rsPX_hWLY7nid9ILhe4hWOIC4wyEzSRB4CBEWU7UlVeagD_59awmKT14BB_bGt-SD-DPsKyfjVGIHhvNEVL94aeX5Og3v1Tcy1zH6z9p0NrNLZ8V-Xo71QH1PcCrsBN_au_nx9m2Gy3f3EPPPpovNh2-lP76GQg7YFzEDT0tBJGs2Y2aZx0nZCJYCyy4i6Lc9ABIPxW8NOXQusTqFf3T9rnEeFPXPdpS-6gX67eBDEiE52h7O9WzQ013--WgsCiHtpqO8k3lxoXHp9aCWHT0fL0Hhx5nPtbn9SV8FeeE3do1jc87Sne0aYJ8KpfnuSILgGxUfoYp5IFHSrize_SIXAB-AI6ugmxIXls--cdkHs8n5tTzOfbM8U9OZJ3E4NY8nxrrD5C5psYZObHATVGWwjXnHfjV_AwQ6ybLTRbi9MJCE8CIgkh5CnsNtdcpFC-KhEwDCXrA.56dcoO3WHiDGIYZVUOKrkoGM1MI")
+# ─── AYARLAR VE TOKENLAR ────────────────────────
+# Not: Token ve Cookie değerlerini Railway paneline (Variables) eklediysen 
+# aşağıdaki tırnak içlerini boş bırakabilirsin. Panelde yoksa direkt tırnak içine yazabilirsin.
+TOKEN = os.environ.get("TOKEN", "")
+ROBLOX_COOKIE = os.environ.get("ROBLOX_COOKIE", "")
 ROBLOX_GROUP_ID = 972348115
 LOG_KANAL_ID = 1519328796275380325
 
@@ -26,12 +30,12 @@ async def sync(ctx):
     await bot.tree.sync()
     await ctx.send("Komutlar guncellendi!")
 
-# ─── YETKİ KONTROL FONKSİYONU ────────────────
+# ─── YETKİ KONTROL FONKSİYONU ───────────────────
 
 def yetkili_mi(interaction: discord.Interaction) -> bool:
     """
     Komutu kullanan kişinin 'OF-6 Tuğgeneral' veya daha üst sırada (hierarchy)
-    bir role sahip olup olmadığını kontrol eder.
+    bir role sahip olup olmadığını kontrol eder. Sunucu sahibine her zaman izin verir.
     """
     member = interaction.user
     if not isinstance(member, discord.Member):
@@ -49,7 +53,7 @@ def yetkili_mi(interaction: discord.Interaction) -> bool:
     # Kullanıcının en yüksek rolü, hedef rolden büyük veya eşit mi?
     return member.top_role >= hedef_rol
 
-# ─── ROBLOX FONKSİYONLARI ───────────────
+# ─── ROBLOX FONKSİYONLARI ───────────────────────
 
 async def csrf_al():
     headers = {"Cookie": f".ROBLOSECURITY={ROBLOX_COOKIE}"}
@@ -88,7 +92,7 @@ async def rutbe_degistir(user_id: int, role_id: int):
         async with s.patch(f"https://groups.roblox.com/v1/groups/{ROBLOX_GROUP_ID}/users/{user_id}", headers=headers, json={"roleId": role_id}) as r:
             return r.status == 200, await r.text()
 
-# ─── RÜTBE SEÇİM MENÜSÜ ─────────────────
+# ─── RÜTBE SEÇİM MENÜSÜ ─────────────────────────
 
 class RutbeMenu(discord.ui.Select):
     def __init__(self, rutbeler, kullanici_adi, hedef_id, sebep, islem):
@@ -103,7 +107,7 @@ class RutbeMenu(discord.ui.Select):
         super().__init__(placeholder="Rutbe sec...", options=options)
 
     async def callback(self, interaction: discord.Interaction):
-        # Menüyü tetikleyen kişinin yetkisini tekrar kontrol et (Güvenlik önlemi)
+        # Menüyü tetikleyen kişinin yetkisini kontrol et
         if not yetkili_mi(interaction):
             await interaction.response.send_message("Bu menüyü kullanmak için yetkiniz yetersiz!", ephemeral=True)
             return
@@ -134,7 +138,7 @@ class RutbeView(discord.ui.View):
         super().__init__(timeout=60)
         self.add_item(RutbeMenu(rutbeler, kullanici_adi, hedef_id, sebep, islem))
 
-# ─── SLASH KOMUTU ───────────────────────
+# ─── SLASH KOMUTU MOTORU ────────────────────────
 
 async def rutbe_autocomplete(interaction: discord.Interaction, current: str):
     rutbeler = await grup_rutbeleri_al()
@@ -163,7 +167,7 @@ async def rutbe_komutu(interaction: discord.Interaction, kullanici_adi: str, seb
     # Eğer rutbe_adi verilmişse direkt ver
     if rutbe_adi:
         hedef_rutbe = next((r for r in rutbeler if r["name"].lower() == rutbe_adi.lower()), None)
-        if not hedef_rutbe:
+        if not Router_rutbe:
             await interaction.followup.send(f"'{rutbe_adi}' adli rutbe bulunamadi!", ephemeral=True)
             return
         basari, hata = await rutbe_degistir(hedef_id, hedef_rutbe["id"])
@@ -217,4 +221,16 @@ async def rutbe_terfi(interaction: discord.Interaction, kullanici_adi: str, sebe
 async def rutbe_tenzil(interaction: discord.Interaction, kullanici_adi: str, sebep: str = "Belirtilmedi", rutbe_adi: str = ""):
     await rutbe_komutu(interaction, kullanici_adi, sebep, "tenzil", rutbe_adi)
 
-bot.run(TOKEN)
+# ─── GÜVENLİ ASENKRON BAŞLATICI ─────────────────
+
+async def main():
+    async with bot:
+        # Railway panelinden çekilemezse yukarıda el ile girilen TOKEN'ı yedek alır, 
+        # sağındaki solundaki görünmez boşlukları temizler (.strip)
+        bot_token = (os.environ.get("TOKEN") or TOKEN).strip()
+        await bot.start(bot_token)
+
+try:
+    asyncio.run(main())
+except KeyboardInterrupt:
+    print("Bot kapatildi.")
