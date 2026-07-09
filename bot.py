@@ -2,10 +2,10 @@ import discord
 from discord.ext import commands
 from discord import app_commands
 import aiohttp
-
 import os
-TOKEN = os.environ.get("TOKEN", "MTUxNTg5NzI3MzQ1MDYzMTE4OA.GvJR_d.keoU2kTKYvJ2IZJGlL6CVb3fTYxkjY_O8G403w")
-ROBLOX_COOKIE = os.environ.get("ROBLOX_COOKIE", "_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|_CAEaBBAEGAEiHAoEZHVpZBIUMTU1MjYyMDg3MDA5MjI2ODU3MTUoAw.QhQXkucYEq8JeChDDF6hTv32fQXX0Tc_RYvvV8oMRtjAamtSFMlKMDWaznUUg6JSEsV3yc8wZIMNz3q1f5disClFsSA4fT6JUB-xHf3QaSbTIpmf0ZMJcRv-jbaFP0NX6q6jmHf7cwuu8qrZlOLCkOZ9Cv7o6_3geZhJCdI9oitS6zrB1eePolDHn6GSxv6gfXqBpbEjF-tz7abR0g1w0CzfgivegMOS7vs_5cBh-Ts1lIBfONSiKKg4tzqnbSuxWeaLhjkmJEH1v2XZZdbavm45CcDqXPCH0_5m6m4myQRq4pK00xuNIdZZN98WdTTZaI4uoQOYwK926yJy1sdqQ9KRM_DrCd79a6FzKHL71BBuOQyJqNtm1f6rZCkw-QEzMXjlczbKiqeyZraTyBCJq9nSqAOyzh-6wQO6-hoU8-ZjWZhJu-qrE7Ot-vNfhTxM6vGoISwQ154gZbxh4ahhoocdr26H3HUxXg-rsPX_hWLY7nid9ILhe4hWOIC4wyEzSRB4CBEWU7UlVeagD_59awmKT14BB_bGt-SD-DPsKyfjVGIHhvNEVL94aeX5Og3v1Tcy1zH6z9p0NrNLZ8V-Xo71QH1PcCrsBN_au_nx9m2Gy3f3EPPPpovNh2-lP76GQg7YFzEDT0tBJGs2Y2aZx0nZCJYCyy4i6Lc9ABIPxW8NOXQusTqFf3T9rnEeFPXPdpS-6gX67eBDEiE52h7O9WzQ013--WgsCiHtpqO8k3lxoXHp9aCWHT0fL0Hhx5nPtbn9SV8FeeE3do1jc87Sne0aYJ8KpfnuSILgGxUfoYp5IFHSrize_SIXAB-AI6ugmxIXls--cdkHs8n5tTzOfbM8U9OZJ3E4NY8nxrrD5C5psYZObHATVGWwjXnHfjV_AwQ6ybLTRbi9MJCE8CIgkh5CnsNtdcpFC-KhEwDCXrA.56dcoO3WHiDGIYZVUOKrkoGM1MI")
+
+TOKEN = os.environ.get("MTUxNTg5NzI3MzQ1MDYzMTE4OA.GiTkCv.MRH1zzU4Ml9HOsx-L7aMDWZ5bGmriFwecx8mXY")
+ROBLOX_COOKIE = os.environ.get("_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|_CAEaBBAEGAEiHAoEZHVpZBIUMTU1MjYyMDg3MDA5MjI2ODU3MTUoAw.QhQXkucYEq8JeChDDF6hTv32fQXX0Tc_RYvvV8oMRtjAamtSFMlKMDWaznUUg6JSEsV3yc8wZIMNz3q1f5disClFsSA4fT6JUB-xHf3QaSbTIpmf0ZMJcRv-jbaFP0NX6q6jmHf7cwuu8qrZlOLCkOZ9Cv7o6_3geZhJCdI9oitS6zrB1eePolDHn6GSxv6gfXqBpbEjF-tz7abR0g1w0CzfgivegMOS7vs_5cBh-Ts1lIBfONSiKKg4tzqnbSuxWeaLhjkmJEH1v2XZZdbavm45CcDqXPCH0_5m6m4myQRq4pK00xuNIdZZN98WdTTZaI4uoQOYwK926yJy1sdqQ9KRM_DrCd79a6FzKHL71BBuOQyJqNtm1f6rZCkw-QEzMXjlczbKiqeyZraTyBCJq9nSqAOyzh-6wQO6-hoU8-ZjWZhJu-qrE7Ot-vNfhTxM6vGoISwQ154gZbxh4ahhoocdr26H3HUxXg-rsPX_hWLY7nid9ILhe4hWOIC4wyEzSRB4CBEWU7UlVeagD_59awmKT14BB_bGt-SD-DPsKyfjVGIHhvNEVL94aeX5Og3v1Tcy1zH6z9p0NrNLZ8V-Xo71QH1PcCrsBN_au_nx9m2Gy3f3EPPPpovNh2-lP76GQg7YFzEDT0tBJGs2Y2aZx0nZCJYCyy4i6Lc9ABIPxW8NOXQusTqFf3T9rnEeFPXPdpS-6gX67eBDEiE52h7O9WzQ013--WgsCiHtpqO8k3lxoXHp9aCWHT0fL0Hhx5nPtbn9SV8FeeE3do1jc87Sne0aYJ8KpfnuSILgGxUfoYp5IFHSrize_SIXAB-AI6ugmxIXls--cdkHs8n5tTzOfbM8U9OZJ3E4NY8nxrrD5C5psYZObHATVGWwjXnHfjV_AwQ6ybLTRbi9MJCE8CIgkh5CnsNtdcpFC-KhEwDCXrA.56dcoO3WHiDGIYZVUOKrkoGM1MI")
 ROBLOX_GROUP_ID = 972348115
 LOG_KANAL_ID = 1519328796275380325
 
@@ -25,6 +25,29 @@ async def on_ready():
 async def sync(ctx):
     await bot.tree.sync()
     await ctx.send("Komutlar guncellendi!")
+
+# ─── YETKİ KONTROL FONKSİYONU ────────────────
+
+def yetkili_mi(interaction: discord.Interaction) -> bool:
+    """
+    Komutu kullanan kişinin 'OF-6 Tuğgeneral' veya daha üst sırada (hierarchy)
+    bir role sahip olup olmadığını kontrol eder.
+    """
+    member = interaction.user
+    if not isinstance(member, discord.Member):
+        return False
+        
+    # Sunucu sahibine her zaman izin ver
+    if member.guild.owner_id == member.id:
+        return True
+
+    # Hedef rolü bul
+    hedef_rol = discord.utils.get(member.guild.roles, name="OF-6 Tuğgeneral")
+    if not hedef_rol:
+        return False
+
+    # Kullanıcının en yüksek rolü, hedef rolden büyük veya eşit mi?
+    return member.top_role >= hedef_rol
 
 # ─── ROBLOX FONKSİYONLARI ───────────────
 
@@ -80,6 +103,11 @@ class RutbeMenu(discord.ui.Select):
         super().__init__(placeholder="Rutbe sec...", options=options)
 
     async def callback(self, interaction: discord.Interaction):
+        # Menüyü tetikleyen kişinin yetkisini tekrar kontrol et (Güvenlik önlemi)
+        if not yetkili_mi(interaction):
+            await interaction.response.send_message("Bu menüyü kullanmak için yetkiniz yetersiz!", ephemeral=True)
+            return
+
         role_id = int(self.values[0])
         basari, hata = await rutbe_degistir(self.hedef_id, role_id)
         secilen = next((o.label for o in self.options if o.value == str(role_id)), "Bilinmiyor")
@@ -116,6 +144,11 @@ async def rutbe_autocomplete(interaction: discord.Interaction, current: str):
     ][:25]
 
 async def rutbe_komutu(interaction: discord.Interaction, kullanici_adi: str, sebep: str, islem: str, rutbe_adi: str = ""):
+    # Komutu kullanan kişinin yetkisi var mı?
+    if not yetkili_mi(interaction):
+        await interaction.response.send_message("Bu komutu kullanabilmek için en az **OF-6 Tuğgeneral** rütbesine sahip olmalısınız!", ephemeral=True)
+        return
+
     await interaction.response.defer(ephemeral=True)
     hedef_id = await kullanici_id_al(kullanici_adi)
     if not hedef_id:
@@ -169,21 +202,18 @@ async def rutbe_komutu(interaction: discord.Interaction, kullanici_adi: str, seb
 @bot.tree.command(name="rutbe-degistir", description="Roblox grubunda kisiye rutbe ver")
 @app_commands.describe(kullanici_adi="Roblox kullanici adi", sebep="Sebep", rutbe_adi="Rutbe adi (yazmaya basla, oneriler cikar)")
 @app_commands.autocomplete(rutbe_adi=rutbe_autocomplete)
-@app_commands.checks.has_permissions(manage_roles=True)
 async def rutbe_ver(interaction: discord.Interaction, kullanici_adi: str, sebep: str = "Belirtilmedi", rutbe_adi: str = ""):
     await rutbe_komutu(interaction, kullanici_adi, sebep, "ver", rutbe_adi)
 
 @bot.tree.command(name="rutbe-terfi", description="Roblox grubunda kisiye terfi ver")
 @app_commands.describe(kullanici_adi="Roblox kullanici adi", sebep="Sebep", rutbe_adi="Rutbe adi (yazmaya basla, oneriler cikar)")
 @app_commands.autocomplete(rutbe_adi=rutbe_autocomplete)
-@app_commands.checks.has_permissions(manage_roles=True)
 async def rutbe_terfi(interaction: discord.Interaction, kullanici_adi: str, sebep: str = "Belirtilmedi", rutbe_adi: str = ""):
     await rutbe_komutu(interaction, kullanici_adi, sebep, "terfi", rutbe_adi)
 
 @bot.tree.command(name="rutbe-tenzil", description="Roblox grubunda kisiyi tenzil et")
 @app_commands.describe(kullanici_adi="Roblox kullanici adi", sebep="Sebep", rutbe_adi="Rutbe adi (yazmaya basla, oneriler cikar)")
 @app_commands.autocomplete(rutbe_adi=rutbe_autocomplete)
-@app_commands.checks.has_permissions(manage_roles=True)
 async def rutbe_tenzil(interaction: discord.Interaction, kullanici_adi: str, sebep: str = "Belirtilmedi", rutbe_adi: str = ""):
     await rutbe_komutu(interaction, kullanici_adi, sebep, "tenzil", rutbe_adi)
 
