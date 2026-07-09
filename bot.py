@@ -11,7 +11,9 @@ import asyncio
 TOKEN = os.environ.get("TOKEN", "")
 ROBLOX_COOKIE = os.environ.get("ROBLOX_COOKIE", "")
 ROBLOX_GROUP_ID = 972348115
-LOG_KANAL_ID = 1519328796275380325
+LOG_KANAL_ID = 1524916740826595450
+
+
 
 intents = discord.Intents.default()
 intents.members = True
